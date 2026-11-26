@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>bh-builds | Web Apps &amp; Small-Office Utilities</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #090d16;
+      --bg-surface: rgba(17, 24, 39, 0.72);
+      --bg-surface-hover: rgba(30, 41, 59, 0.88);
+      --border-subtle: rgba(148, 163, 184, 0.14);
+      --border-highlight: rgba(20, 184, 166, 0.45);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-teal: #14b8a6;
+      --accent-teal-dim: rgba(20, 184, 166, 0.14);
+      --accent-lime: #84cc16;
+      --accent-sky: #38bdf8;
+      --accent-amber: #f59e0b;
+      --shadow-card: 0 12px 32px -8px rgba(0, 0, 0, 0.55);
+      --glow-radial: radial-gradient(circle at 50% 0%, rgba(20, 184, 166, 0.14) 0%, rgba(9, 13, 22, 0) 65%);
+    }
+
+    body.light-theme {
+      --bg-base: #f1f5f9;
+      --bg-surface: rgba(255, 255, 255, 0.88);
+      --bg-surface-hover: #ffffff;
+      --border-subtle: rgba(15, 23, 42, 0.1);
+      --border-highlight: rgba(13, 148, 136, 0.5);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --accent-teal: #0d9488;
+      --accent-teal-dim: rgba(13, 148, 136, 0.1);
+      --accent-lime: #65a30d;
+      --accent-sky: #0284c7;
+      --accent-amber: #d97706;
+      --shadow-card: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+      --glow-radial: radial-gradient(circle at 50% 0%, rgba(13, 148, 136, 0.12) 0%, rgba(241, 245, 249, 0) 65%);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100vw;
+      height: 100dvh;
+      overflow: hidden !important;
+      background-color: var(--bg-base);
+      background-image: var(--glow-radial);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* Subtle technical dot grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(var(--border-subtle) 1px, transparent 1px);
+      background-size: 24px 24px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Centered Single-Viewport Shell */
+    .viewport-shell {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100dvh;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: clamp(14px, 2.5vh, 28px) clamp(16px, 3vw, 32px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: clamp(10px, 1.8vh, 20px);
+    }
+
+    /* Compact Top Bar */
+    .topbar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent-teal), var(--accent-lime));
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(20, 184, 166, 0.3);
+    }
+
+    .brand-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .brand-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-name {
+      font-size: clamp(15px, 1.6vw, 17px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .availability-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-teal-dim);
+      color: var(--accent-teal);
+      border: 1px solid rgba(20, 184, 166, 0.25);
+      white-space: nowrap;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-teal);
+      box-shadow: 0 0 8px var(--accent-teal);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.85); }
+    }
+
+    .brand-tagline {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--border-highlight);
+      color: var(--text-primary);
+      background: var(--bg-surface-hover);
+    }
+
+    .cta-btn {
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 9px;
+      border: none;
+      background: var(--accent-teal);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .cta-btn:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    /* Filter Tabs Bar */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .filter-pill {
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-pill:hover {
+      color: var(--text-primary);
+      border-color: var(--border-highlight);
+    }
+
+    .filter-pill.active {
+      background: var(--accent-teal-dim);
+      color: var(--accent-teal);
+      border-color: var(--border-highlight);
+      font-weight: 600;
+    }
+
+    /* Centerpiece Apps Grid (Auto-fits remaining viewport height) */
+    .apps-grid {
+      width: 100%;
+      flex: 1 1 auto;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.8vh, 18px);
+    }
+
+    .app-card {
+      position: relative;
+      background: var(--bg-surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: clamp(12px, 1.8vh, 18px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 0;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease, background-color 0.22s ease;
+    }
+
+    .app-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-highlight);
+      background: var(--bg-surface-hover);
+    }
+
+    .app-card.dimmed {
+      opacity: 0.28;
+      pointer-events: none;
+      transform: scale(0.985);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .card-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .app-icon-box {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-teal { background: rgba(20, 184, 166, 0.14); color: var(--accent-teal); border: 1px solid rgba(20, 184, 166, 0.28); }
+    .icon-sky { background: rgba(56, 189, 248, 0.14); color: var(--accent-sky); border: 1px solid rgba(56, 189, 248, 0.28); }
+    .icon-amber { background: rgba(245, 158, 11, 0.14); color: var(--accent-amber); border: 1px solid rgba(245, 158, 11, 0.28); }
+    .icon-lime { background: rgba(132, 204, 22, 0.14); color: var(--accent-lime); border: 1px solid rgba(132, 204, 22, 0.28); }
+
+    .status-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(148, 163, 184, 0.1);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .card-body {
+      margin: auto 0;
+      padding: 6px 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .app-title {
+      font-size: clamp(15px, 1.5vw, 17px);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    p.app-desc {
+      font-size: clamp(11.5px, 1.1vw, 12.8px);
+      color: var(--text-secondary);
+      line-height: 1.42;
+      white-space: normal;
+      overflow-wrap: break-word;
+      display: block;
+    }
+
+    .app-desc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .app-desc-list li {
+      font-size: clamp(11px, 1.05vw, 12.2px);
+      color: var(--text-primary);
+      line-height: 1.35;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .app-desc-list li::before {
+      content: '✓';
+      color: var(--accent-teal);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 7px;
+      border-top: 1px solid var(--border-subtle);
+      flex-shrink: 0;
+    }
+
+    .tech-tags {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      overflow: hidden;
+    }
+
+    .tech-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      padding: 2px 7px;
+      border-radius: 5px;
+      background: rgba(148, 163, 184, 0.08);
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .launch-hint {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-teal);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      transition: transform 0.2s ease;
+    }
+
+    .app-card:hover .launch-hint {
+      transform: translateX(2px);
+    }
+
+    /* Compact Bottom Footer */
+    .bottombar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .stack-summary {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+
+    /* Contact Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.72);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 50;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+      animation: fadeIn 0.18s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--bg-base);
+      border: 1px solid var(--border-highlight);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.65);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .modal-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      color: var(--text-primary);
+      border-color: var(--border-highlight);
+    }
+
+    .modal-desc {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--text-secondary);
+    }
+
+    .modal-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      background: var(--bg-surface);
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .modal-features li {
+      font-size: 12.5px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-features li::before {
+      content: '✓';
+      color: var(--accent-teal);
+      font-weight: 700;
+    }
+
+    .modal-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .btn-secondary {
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 9px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--border-highlight);
+    }
+
+    /* Responsive Adjustments for Tablet & Mobile (Zero-Scroll Preserved) */
+    @media (max-width: 768px) {
+      .brand-tagline, .stack-summary {
+        display: none;
+      }
+
+      .apps-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .app-card {
+        padding: 8px 12px;
+        border-radius: 12px;
+      }
+
+      .app-icon-box {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+      }
+
+      .card-body {
+        padding: 3px 0;
+        gap: 3px;
+      }
+
+      .app-title {
+        font-size: 13.5px;
+      }
+
+      p.app-desc {
+        font-size: 11px;
+        line-height: 1.3;
+      }
+
+      .app-desc-list {
+        display: none;
+      }
+
+      .card-footer {
+        padding-top: 4px;
+      }
+    }
+
+    @media (max-height: 680px) {
+      .filter-bar, .app-desc-list {
+        display: none;
+      }
+      p.app-desc {
+        font-size: 11.5px;
+        line-height: 1.32;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="viewport-shell">
+    <!-- Top Header -->
+    <header class="topbar">
+      <div class="brand-group">
+        <div class="brand-avatar">BH</div>
+        <div class="brand-info">
+          <div class="brand-title-row">
+            <h1 class="brand-name">Budi Hermawan</h1>
+            <span class="availability-pill"><span class="pulse-dot"></span>Available</span>
+          </div>
+          <p class="brand-tagline">Lightweight Web Apps, Dashboards &amp; Small-Office Utilities</p>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <a href="https://github.com/bh-builds" target="_blank" rel="noopener" class="icon-btn" title="GitHub Profile (@bh-builds)" aria-label="GitHub Profile">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+        </a>
+        <button type="button" class="icon-btn" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
+          <svg id="themeIcon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+        <button type="button" class="cta-btn" id="openContactBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <span>Contact</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Category Filter Bar -->
+    <nav class="filter-bar" aria-label="App Categories">
+      <button type="button" class="filter-pill active" data-filter="all">All Apps (4)</button>
+      <button type="button" class="filter-pill" data-filter="dashboard">Dashboards</button>
+      <button type="button" class="filter-pill" data-filter="field">Field &amp; Geo</button>
+      <button type="button" class="filter-pill" data-filter="governance">Governance &amp; Risk</button>
+    </nav>
+
+    <!-- Apps Showcase Grid -->
+    <section class="apps-grid" aria-label="Featured Web Applications">
+      <!-- App 1: MonPerjadin (Links to Contact Me) -->
+      <article class="app-card contact-trigger" data-category="dashboard" role="button" tabindex="0">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="app-icon-box icon-teal">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <h2 class="app-title">MonPerjadin</h2>
+          </div>
+          <span class="status-badge">LIVE • v2.4</span>
+        </div>
+        <div class="card-body">
+          <p class="app-desc">Official travel monitoring dashboard aggregating travel schedules, participant rosters, and operational reporting.</p>
+          <ul class="app-desc-list">
+            <li>Interactive Daily, Weekly &amp; Monthly calendar views with weekend highlights</li>
+            <li>Multi-dimensional pivot grouping and instant XLSX spreadsheet export</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="tech-tags">
+            <span class="tech-tag">Vanilla JS</span>
+            <span class="tech-tag">SheetJS</span>
+            <span class="tech-tag">Apps Script</span>
+          </div>
+          <span class="launch-hint">Contact Me →</span>
+        </div>
+      </article>
+
+      <!-- App 2: GeoAttend (Links to GitHub repo) -->
+      <a href="https://github.com/bh-builds/geoattend-v0.2" target="_blank" rel="noopener" class="app-card" data-category="field">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="app-icon-box icon-sky">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <h2 class="app-title">GeoAttend</h2>
+          </div>
+          <span class="status-badge">LIVE • AI + GPS</span>
+        </div>
+        <div class="card-body">
+          <p class="app-desc">Geofenced facial-recognition attendance web app combining GPS boundary validation with client-side AI inference.</p>
+          <ul class="app-desc-list">
+            <li>Self-hosted @vladmandic/human v3.3.6 models &amp; interactive Leaflet geofence map</li>
+            <li>Automated offscreen photo cropping &amp; timestamp logging to Google Drive/Sheets</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="tech-tags">
+            <span class="tech-tag">Leaflet</span>
+            <span class="tech-tag">Human.js</span>
+            <span class="tech-tag">Google Drive</span>
+          </div>
+          <span class="launch-hint">Live Apps →</span>
+        </div>
+      </a>
+
+      <!-- App 3: MonGRC (Links to live GitHub Pages app) -->
+      <a href="https://bh-builds.github.io/mongrc-v0.2/" target="_blank" rel="noopener" class="app-card" data-category="governance">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="app-icon-box icon-amber">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <h2 class="app-title">MonGRC</h2>
+          </div>
+          <span class="status-badge">LIVE • v0.2</span>
+        </div>
+        <div class="card-body">
+          <p class="app-desc">Executive monitoring dashboard tracking governance maturity, compliance progress, and organizational risk indicators.</p>
+          <ul class="app-desc-list">
+            <li>Real-time KPI scorecards across governance, risk, and compliance pillars</li>
+            <li>Structured visibility into unit performance and ISO 31000 risk mitigation status</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="tech-tags">
+            <span class="tech-tag">GRC KPIs</span>
+            <span class="tech-tag">ISO 31000</span>
+            <span class="tech-tag">Dashboard</span>
+          </div>
+          <span class="launch-hint">Live Apps →</span>
+        </div>
+      </a>
+
+      <!-- App 4: Attendance Monitoring (Links to Contact Me) -->
+      <article class="app-card contact-trigger" data-category="dashboard" role="button" tabindex="0">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="app-icon-box icon-lime">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <polyline points="16 11 18 13 22 9"></polyline>
+              </svg>
+            </div>
+            <h2 class="app-title">Attendance Monitoring</h2>
+          </div>
+          <span class="status-badge">LIVE • HR OPS</span>
+        </div>
+        <div class="card-body">
+          <p class="app-desc">Employee attendance monitoring and verification system designed for daily team check-in tracking and recap.</p>
+          <ul class="app-desc-list">
+            <li>Real-time employee presence confirmation and automated status summaries</li>
+            <li>Centralized Google Sheets storage with Asia/Jakarta timestamp tracking</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="tech-tags">
+            <span class="tech-tag">Apps Script</span>
+            <span class="tech-tag">Sheets DB</span>
+            <span class="tech-tag">Web App</span>
+          </div>
+          <span class="launch-hint">Contact Me →</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- Bottom Bar -->
+    <footer class="bottombar">
+      <span>Bogor, Indonesia • Office Automation, Compliance and Audit Tools</span>
+      <span class="stack-summary">HTML/JS • Google Apps Script • Google Sheets • WordPress</span>
+    </footer>
+  </main>
+
+  <!-- Contact Modal -->
+  <div class="modal-backdrop" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
+    <div class="modal-card">
+      <div class="modal-top">
+        <h3 class="modal-title" id="contactModalTitle">Start a Project</h3>
+        <button type="button" class="modal-close" id="closeContactModal" aria-label="Close contact modal">✕</button>
+      </div>
+      <p class="modal-desc">Need a fast, zero-maintenance internal dashboard, Google Apps Script automation, or compliance/audit utility? Reach out directly:</p>
+      <ul class="modal-features">
+        <li>Custom Google Sheets &amp; Apps Script Web Apps</li>
+        <li>Interactive Reporting &amp; GRC / Audit Dashboards</li>
+        <li>Geofenced Field &amp; Attendance Utilities</li>
+      </ul>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" id="copyEmailBtn">Copy GitHub Handle</button>
+        <a href="https://github.com/bh-builds" target="_blank" rel="noopener" class="cta-btn">Message via GitHub</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // Category Filter Logic
+      const filterPills = document.querySelectorAll('.filter-pill');
+      const appCards = document.querySelectorAll('.app-card');
+
+      filterPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          filterPills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          const filter = pill.dataset.filter;
+
+          appCards.forEach(card => {
+            if (filter === 'all' || card.dataset.category === filter) {
+              card.classList.remove('dimmed');
+            } else {
+              card.classList.add('dimmed');
+            }
+          });
+        });
+      });
+
+      // Contact Modal Logic
+      const contactModal = document.getElementById('contactModal');
+      const openContactModal = () => contactModal.classList.add('open');
+
+      document.getElementById('openContactBtn').addEventListener('click', openContactModal);
+      document.querySelectorAll('.contact-trigger').forEach(card => {
+        card.addEventListener('click', openContactModal);
+        card.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openContactModal();
+          }
+        });
+      });
+
+      document.getElementById('closeContactModal').addEventListener('click', () => contactModal.classList.remove('open'));
+      contactModal.addEventListener('click', e => { if (e.target === contactModal) contactModal.classList.remove('open'); });
+
+      // Copy Handle Feedback
+      const copyBtn = document.getElementById('copyEmailBtn');
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard?.writeText('https://github.com/bh-builds');
+        const original = copyBtn.textContent;
+        copyBtn.textContent = 'Copied @bh-builds!';
+        setTimeout(() => { copyBtn.textContent = original; }, 1800);
+      });
+
+      // Light/Dark Theme Toggle
+      const themeBtn = document.getElementById('themeToggleBtn');
+      themeBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+      });
+
+      // Escape key closes modal
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+          contactModal.classList.remove('open');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
