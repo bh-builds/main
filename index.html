@@ -9,24 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-base: #090d16;
-      --bg-surface: rgba(17, 24, 39, 0.72);
-      --bg-surface-hover: rgba(30, 41, 59, 0.88);
-      --border-subtle: rgba(148, 163, 184, 0.14);
-      --border-highlight: rgba(20, 184, 166, 0.45);
-      --text-primary: #f8fafc;
-      --text-secondary: #94a3b8;
-      --text-muted: #64748b;
-      --accent-teal: #14b8a6;
-      --accent-teal-dim: rgba(20, 184, 166, 0.14);
-      --accent-lime: #84cc16;
-      --accent-sky: #38bdf8;
-      --accent-amber: #f59e0b;
-      --shadow-card: 0 12px 32px -8px rgba(0, 0, 0, 0.55);
-      --glow-radial: radial-gradient(circle at 50% 0%, rgba(20, 184, 166, 0.14) 0%, rgba(9, 13, 22, 0) 65%);
-    }
-
-    body.light-theme {
       --bg-base: #f1f5f9;
       --bg-surface: rgba(255, 255, 255, 0.88);
       --bg-surface-hover: #ffffff;
@@ -42,6 +24,24 @@
       --accent-amber: #d97706;
       --shadow-card: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
       --glow-radial: radial-gradient(circle at 50% 0%, rgba(13, 148, 136, 0.12) 0%, rgba(241, 245, 249, 0) 65%);
+    }
+
+    body.dark-theme {
+      --bg-base: #090d16;
+      --bg-surface: rgba(17, 24, 39, 0.72);
+      --bg-surface-hover: rgba(30, 41, 59, 0.88);
+      --border-subtle: rgba(148, 163, 184, 0.14);
+      --border-highlight: rgba(20, 184, 166, 0.45);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-teal: #14b8a6;
+      --accent-teal-dim: rgba(20, 184, 166, 0.14);
+      --accent-lime: #84cc16;
+      --accent-sky: #38bdf8;
+      --accent-amber: #f59e0b;
+      --shadow-card: 0 12px 32px -8px rgba(0, 0, 0, 0.55);
+      --glow-radial: radial-gradient(circle at 50% 0%, rgba(20, 184, 166, 0.14) 0%, rgba(9, 13, 22, 0) 65%);
     }
 
     *, *::before, *::after {
@@ -81,12 +81,12 @@
       height: 100dvh;
       max-width: 1120px;
       margin: 0 auto;
-      padding: clamp(14px, 2.5vh, 28px) clamp(16px, 3vw, 32px);
+      padding: clamp(18px, 3vh, 34px) clamp(16px, 3vw, 32px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      gap: clamp(10px, 1.8vh, 20px);
+      gap: clamp(18px, 3vh, 30px);
     }
 
     /* Compact Top Bar */
@@ -97,6 +97,7 @@
       justify-content: space-between;
       gap: 12px;
       flex-shrink: 0;
+      padding-bottom: clamp(4px, 0.8vh, 10px);
     }
 
     .brand-group {
@@ -119,7 +120,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      box-shadow: 0 4px 14px rgba(20, 184, 166, 0.3);
+      box-shadow: 0 4px 14px rgba(13, 148, 136, 0.25);
     }
 
     .brand-info {
@@ -151,7 +152,7 @@
       border-radius: 999px;
       background: var(--accent-teal-dim);
       color: var(--accent-teal);
-      border: 1px solid rgba(20, 184, 166, 0.25);
+      border: 1px solid rgba(13, 148, 136, 0.25);
       white-space: nowrap;
     }
 
@@ -236,6 +237,7 @@
       gap: 6px;
       flex-shrink: 0;
       flex-wrap: wrap;
+      margin-top: clamp(2px, 0.6vh, 8px);
     }
 
     .filter-pill {
@@ -270,7 +272,9 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       grid-template-rows: repeat(2, minmax(0, 1fr));
-      gap: clamp(10px, 1.8vh, 18px);
+      gap: clamp(12px, 2vh, 20px);
+      margin-top: clamp(2px, 0.6vh, 8px);
+      margin-bottom: clamp(4px, 1vh, 12px);
     }
 
     .app-card {
@@ -450,6 +454,7 @@
       font-size: 12px;
       color: var(--text-muted);
       flex-shrink: 0;
+      padding-top: clamp(4px, 0.8vh, 10px);
     }
 
     .stack-summary {
@@ -461,7 +466,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(2, 6, 23, 0.72);
+      background: rgba(2, 6, 23, 0.65);
       backdrop-filter: blur(6px);
       display: none;
       align-items: center;
@@ -487,7 +492,7 @@
       border: 1px solid var(--border-highlight);
       border-radius: 18px;
       padding: 22px;
-      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.65);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25);
       display: flex;
       flex-direction: column;
       gap: 14px;
@@ -587,10 +592,17 @@
         display: none;
       }
 
+      .viewport-shell {
+        padding: 14px 14px;
+        gap: 12px;
+      }
+
       .apps-grid {
         grid-template-columns: 1fr;
         grid-template-rows: repeat(4, minmax(0, 1fr));
         gap: 8px;
+        margin-top: 2px;
+        margin-bottom: 2px;
       }
 
       .app-card {
@@ -649,7 +661,7 @@
             <h1 class="brand-name">Budi Hermawan</h1>
             <span class="availability-pill"><span class="pulse-dot"></span>Available</span>
           </div>
-          <p class="brand-tagline">Lightweight Web Apps, Dashboards &amp; Small-Office Utilities</p>
+          <p class="brand-tagline">Lightweight Web Apps, Executive Dashboard</p>
         </div>
       </div>
 
@@ -661,15 +673,7 @@
         </a>
         <button type="button" class="icon-btn" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
           <svg id="themeIcon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
           </svg>
         </button>
         <button type="button" class="cta-btn" id="openContactBtn">
@@ -725,8 +729,8 @@
         </div>
       </article>
 
-      <!-- App 2: GeoAttend (Links to GitHub repo) -->
-      <a href="https://github.com/bh-builds/geoattend-v0.2" target="_blank" rel="noopener" class="app-card" data-category="field">
+      <!-- App 2: GeoAttend (Links to https://bh-builds.github.io/geoattend-v0.2/) -->
+      <a href="https://bh-builds.github.io/geoattend-v0.2/" target="_blank" rel="noopener" class="app-card" data-category="field">
         <div class="card-header">
           <div class="card-title-group">
             <div class="app-icon-box icon-sky">
@@ -756,7 +760,7 @@
         </div>
       </a>
 
-      <!-- App 3: MonGRC (Links to live GitHub Pages app) -->
+      <!-- App 3: MonGRC (Links to https://bh-builds.github.io/mongrc-v0.2/) -->
       <a href="https://bh-builds.github.io/mongrc-v0.2/" target="_blank" rel="noopener" class="app-card" data-category="governance">
         <div class="card-header">
           <div class="card-title-group">
@@ -895,10 +899,15 @@
         setTimeout(() => { copyBtn.textContent = original; }, 1800);
       });
 
-      // Light/Dark Theme Toggle
+      // Light/Dark Theme Toggle (Light Theme Default)
       const themeBtn = document.getElementById('themeToggleBtn');
+      const themeIcon = document.getElementById('themeIcon');
+      const moonSvg = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+      const sunSvg = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+
       themeBtn.addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
+        const isDark = document.body.classList.toggle('dark-theme');
+        themeIcon.innerHTML = isDark ? sunSvg : moonSvg;
       });
 
       // Escape key closes modal
