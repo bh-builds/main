@@ -33,6 +33,28 @@
       --glow-radial: radial-gradient(circle at 50% -10%, rgba(124, 148, 115, 0.24) 0%, rgba(246, 247, 242, 0) 68%);
     }
 
+    body.dark-theme {
+      --bg-base: #131711;
+      --bg-surface: rgba(26, 32, 23, 0.84);
+      --bg-surface-hover: rgba(34, 42, 30, 0.96);
+      --border-subtle: rgba(163, 184, 149, 0.15);
+      --border-highlight: rgba(143, 173, 127, 0.52);
+      --text-primary: #eef2e8;
+      --text-secondary: #b7c2ad;
+      --text-muted: #849179;
+
+      --accent-olive: #8fad7f;
+      --accent-olive-deep: #a5c495;
+      --accent-sage: #78936a;
+      --accent-sage-soft: rgba(143, 173, 127, 0.15);
+      --accent-moss: #9ab87a;
+      --accent-sand: #c2b88e;
+
+      --shadow-card: 0 14px 36px -8px rgba(0, 0, 0, 0.5);
+      --shadow-card-hover: 0 20px 44px -8px rgba(0, 0, 0, 0.68);
+      --glow-radial: radial-gradient(circle at 50% -10%, rgba(120, 147, 106, 0.20) 0%, rgba(19, 23, 17, 0) 68%);
+    }
+
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -51,7 +73,7 @@
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-font-smoothing: antialiased;
       -webkit-tap-highlight-color: transparent;
-      transition: background-color 0.28s ease, color 0.28s ease;
+      transition: background-color 0.38s ease, color 0.38s ease;
     }
 
     /* Subtle organic paper-grain & dot grid */
@@ -105,11 +127,15 @@
       object-fit: contain;
       display: block;
       flex-shrink: 0;
-      transition: transform 0.25s ease;
+      transition: transform 0.25s ease, filter 0.35s ease;
     }
 
     .brand-icon:hover {
       transform: scale(1.04);
+    }
+
+    body.dark-theme .brand-icon {
+      filter: invert(0.92) sepia(0.14) saturate(0.8) hue-rotate(45deg);
     }
 
     .brand-info {
@@ -178,8 +204,108 @@
     .topbar-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex-shrink: 0;
+    }
+
+    /* Sun / Moon Pure CSS Morph Toggle Switch (.tgl-02 style) */
+    .tgl-02__scene {
+      --day: #7ecbf5;
+      --night: #1c2a4a;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .tgl-02__sw {
+      appearance: none;
+      -webkit-appearance: none;
+      display: block;
+      width: 70px;
+      height: 36px;
+      border-radius: 20px;
+      border: 1px solid var(--border-subtle);
+      background: linear-gradient(var(--day), #b3e0f9);
+      position: relative;
+      cursor: pointer;
+      transition: background 0.45s ease, border-color 0.35s ease;
+      box-shadow: inset 0 2px 5px rgba(0, 40, 80, 0.25);
+    }
+
+    .tgl-02__sw:checked {
+      background: linear-gradient(var(--night), #0f1830);
+      border-color: rgba(143, 173, 127, 0.35);
+    }
+
+    .tgl-02__sw::before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 4px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: transparent;
+      box-shadow: inset 0 0 0 14px #ffd54f, 0 0 12px rgba(255, 200, 60, 0.8);
+      transition: transform 0.45s cubic-bezier(0.3, 1.2, 0.4, 1), box-shadow 0.45s ease;
+      z-index: 1;
+    }
+
+    .tgl-02__sw:checked::before {
+      transform: translateX(32px);
+      box-shadow: inset -8px -4px 0 1px #f4f1de, 0 0 10px rgba(220, 225, 255, 0.45);
+    }
+
+    .tgl-02__stars {
+      position: absolute;
+      top: 9px;
+      left: 12px;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 10px 4px 0 #fff, 4px 14px 0 0 #dfe8ff, 16px 16px 0 #fff, 24px 7px 0 0 #dfe8ff;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+      pointer-events: none;
+    }
+
+    .tgl-02__sw:checked ~ .tgl-02__stars {
+      opacity: 0.95;
+    }
+
+    .tgl-02__cloud {
+      position: absolute;
+      top: 19px;
+      right: 12px;
+      width: 18px;
+      height: 7px;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: -7px -4px 0 -1px #fff, 6px -3px 0 -2px #fff;
+      opacity: 0.95;
+      transition: opacity 0.45s ease, transform 0.45s ease;
+      pointer-events: none;
+    }
+
+    .tgl-02__sw:checked ~ .tgl-02__cloud {
+      opacity: 0;
+      transform: translateX(8px);
+    }
+
+    .tgl-02__sw:focus-visible {
+      outline: 3px solid var(--accent-olive);
+      outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tgl-02__sw,
+      .tgl-02__sw::before,
+      .tgl-02__stars,
+      .tgl-02__cloud {
+        transition: none;
+      }
     }
 
     .cta-btn {
@@ -201,6 +327,10 @@
       white-space: nowrap;
       text-decoration: none;
       box-shadow: 0 4px 14px rgba(85, 107, 47, 0.22);
+    }
+
+    body.dark-theme .cta-btn {
+      color: #131711;
     }
 
     .cta-btn:hover {
@@ -318,6 +448,10 @@
       background: rgba(163, 154, 116, 0.16);
       color: #6f6642;
       border: 1px solid rgba(163, 154, 116, 0.32);
+    }
+
+    body.dark-theme .icon-sand {
+      color: var(--accent-sand);
     }
 
     .card-body {
@@ -452,6 +586,10 @@
 
     .app-card:hover .launch-arrow {
       transform: translateX(3px);
+    }
+
+    body.dark-theme .app-card:hover .launch-hint {
+      color: #131711;
     }
 
     /* Compact Bottom Footer */
@@ -737,6 +875,11 @@
       </div>
 
       <div class="topbar-actions">
+        <label class="tgl-02__scene" for="themeSwitch" title="Toggle Light / Dark Theme">
+          <input type="checkbox" id="themeSwitch" class="tgl-02__sw" role="switch" aria-label="Toggle Dark Mode">
+          <span class="tgl-02__stars" aria-hidden="true"></span>
+          <span class="tgl-02__cloud" aria-hidden="true"></span>
+        </label>
         <button type="button" class="cta-btn" id="openContactBtn">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -824,7 +967,7 @@
           <h2 class="app-title">MonGRC</h2>
         </div>
         <div class="card-body">
-          <p class="app-desc">Executive monitoring dashboard for tracking maturity of governance, compliance, internal controls, public services and organizational risks management, .</p>
+          <p class="app-desc">Executive monitoring dashboard for tracking maturity of governance, compliance, internal controls, public services and organizational risks management.</p>
           <ul class="app-desc-list">
             <li>Real-time KPI scorecards across governance, risk, and compliance pillars</li>
             <li>Structured visibility into unit performance and ISO 31000 risk mitigation status</li>
@@ -930,6 +1073,12 @@
         const original = copyBtn.textContent;
         copyBtn.textContent = 'Copied @bh-builds!';
         setTimeout(() => { copyBtn.textContent = original; }, 1800);
+      });
+
+      // Sun / Moon Switch Theme Toggle (Light Theme Default)
+      const themeSwitch = document.getElementById('themeSwitch');
+      themeSwitch.addEventListener('change', () => {
+        document.body.classList.toggle('dark-theme', themeSwitch.checked);
       });
 
       // Escape key closes modal
