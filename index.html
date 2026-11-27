@@ -121,25 +121,29 @@
       min-width: 0;
     }
 
-    .brand-avatar {
-      width: 46px;
-      height: 46px;
+    .brand-icon-box {
+      width: 48px;
+      height: 48px;
       border-radius: 14px;
-      background: linear-gradient(135deg, var(--accent-olive), var(--accent-sage));
-      color: #ffffff;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 800;
-      font-size: 16px;
-      letter-spacing: -0.02em;
+      background: rgba(85, 107, 47, 0.12);
+      color: var(--accent-olive);
+      border: 1px solid rgba(85, 107, 47, 0.28);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      box-shadow: 0 6px 18px rgba(85, 107, 47, 0.26);
+      box-shadow: 0 6px 16px rgba(45, 56, 36, 0.08);
+      transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
     }
 
-    body.dark-theme .brand-avatar {
-      color: #131711;
+    .brand-icon-box:hover {
+      transform: scale(1.04);
+      border-color: var(--border-highlight);
+    }
+
+    body.dark-theme .brand-icon-box {
+      background: rgba(143, 173, 127, 0.14);
+      border-color: rgba(143, 173, 127, 0.30);
     }
 
     .brand-info {
@@ -712,10 +716,9 @@
         gap: 12px;
       }
 
-      .brand-avatar {
-        width: 42px;
-        height: 42px;
-        font-size: 15px;
+      .brand-icon-box {
+        width: 44px;
+        height: 44px;
       }
 
       .brand-name {
@@ -799,14 +802,39 @@
     <!-- Top Header -->
     <header class="topbar">
       <div class="brand-group">
-        <div class="brand-avatar">BH</div>
+        <div class="brand-icon-box" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Hair -->
+            <path d="M22 17c-4 0-6 3-6 7 0 3 .7 5.5 1.5 7.5" />
+            <path d="M22 17c1.5-7 8.5-11 16-9.5 3.5.7 6.5 2.5 8.5 5l-2 1.5c3.5 1 6.5 3.5 6.5 6.5 0 2.2-1.2 3.8-2.4 5.2-1 1.2-1.8 3.2-2.2 5.8" />
+            <!-- Face & Forehead Hairline -->
+            <path d="M21 26c2.5 0 3.2-1.5 3.5-3.2.3-1.6 1.5-2.3 3.5-2.6 3.5-.5 7.5-.5 11 0 2 .3 3.2 1 3.5 2.6.3 1.7 1 3.2 3.5 3.2" />
+            <path d="M21 26v10c0 6.5 5 11.5 11 11.5S43 42.5 43 36V26" />
+            <!-- Ears -->
+            <path d="M21 28.5c-2.5 0-4.2 1.8-4.2 4.2s1.7 4.3 4.2 4.3" />
+            <path d="M43 28.5c2.5 0 4.2 1.8 4.2 4.2s-1.7 4.3-4.2 4.3" />
+            <!-- Neck & Collar -->
+            <path d="M27.5 46.5V50" />
+            <path d="M36.5 46.5V50" />
+            <path d="M21 52l4.5-3.5L30 53l-3.5 3.5z" />
+            <path d="M43 52l-4.5-3.5L34 53l3.5 3.5z" />
+            <!-- Shoulders & Shirt -->
+            <path d="M23 50.5c-6.5 1-11 4.5-11 11.5" />
+            <path d="M41 50.5c6.5 1 11 4.5 11 11.5" />
+            <line x1="30" y1="53" x2="34" y2="53" />
+            <line x1="30" y1="53" x2="30" y2="62" />
+            <line x1="34" y1="53" x2="34" y2="62" />
+            <line x1="12" y1="57.5" x2="18.5" y2="57.5" />
+            <line x1="45.5" y1="57.5" x2="52" y2="57.5" />
+          </svg>
+        </div>
         <div class="brand-info">
           <div class="brand-title-row">
             <h1 class="brand-name">Budi Hermawan</h1>
             <span class="role-badge">UI/UX Designer &amp; Builder</span>
             <span class="availability-pill"><span class="pulse-dot"></span>Available</span>
           </div>
-          <p class="brand-tagline">Customized Web Apps, Executive Dashboard, Office Automation, Compliance and Audit Tools</p>
+          <p class="brand-tagline">Lightweight Web Apps, Executive Dashboard</p>
         </div>
       </div>
 
@@ -878,7 +906,7 @@
           <h2 class="app-title">GeoAttend</h2>
         </div>
         <div class="card-body">
-          <p class="app-desc">Geofenced facial-recognition attendance web app combining GPS boundary validation with client-side AI assisted face recognition.</p>
+          <p class="app-desc">Geofenced facial-recognition attendance web app combining GPS boundary validation with client-side AI inference.</p>
           <ul class="app-desc-list">
             <li>Self-hosted @vladmandic/human v3.3.6 models &amp; interactive Leaflet geofence map</li>
             <li>Automated offscreen photo cropping &amp; timestamp logging to Google Drive/Sheets</li>
@@ -910,8 +938,8 @@
         <div class="card-body">
           <p class="app-desc">Executive monitoring dashboard tracking governance maturity, compliance progress, and organizational risk indicators.</p>
           <ul class="app-desc-list">
-            <li>Real-time KPIs scorecards across governance, risk, and compliance pillars</li>
-            <li>Structured visibility into unit performance</li>
+            <li>Real-time KPI scorecards across governance, risk, and compliance pillars</li>
+            <li>Structured visibility into unit performance and ISO 31000 risk mitigation status</li>
           </ul>
         </div>
         <div class="card-footer">
@@ -943,7 +971,7 @@
           <p class="app-desc">Employee attendance monitoring and verification system designed for daily team check-in tracking and recap.</p>
           <ul class="app-desc-list">
             <li>Real-time employee presence confirmation and automated status summaries</li>
-            <li>Centralized Google Sheets storage with GPS and timestamp tracking</li>
+            <li>Centralized Google Sheets storage with Asia/Jakarta timestamp tracking</li>
           </ul>
         </div>
         <div class="card-footer">
@@ -962,7 +990,7 @@
 
     <!-- Bottom Bar -->
     <footer class="bottombar">
-      <span> • Bogor, Indonesia</span>
+      <span>Bogor, Indonesia • Office Automation, Compliance and Audit Tools</span>
       <span class="stack-summary">UI/UX Design • HTML/JS • Google Apps Script • Google Sheets</span>
     </footer>
   </main>
