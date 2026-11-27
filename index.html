@@ -10,49 +10,49 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Sage & Olive Editorial Palette (Light Theme Default) */
-      --bg-base: #f6f7f2;
-      --bg-surface: rgba(255, 255, 253, 0.90);
+      /* Teal Editorial Palette (Light Theme Default) */
+      --bg-base: #f2f8f7;
+      --bg-surface: rgba(255, 255, 255, 0.90);
       --bg-surface-hover: #ffffff;
-      --border-subtle: rgba(74, 87, 65, 0.14);
-      --border-highlight: rgba(85, 107, 47, 0.48);
-      --text-primary: #22291c;
-      --text-secondary: #4e5945;
-      --text-muted: #717d67;
+      --border-subtle: rgba(32, 70, 81, 0.14);
+      --border-highlight: rgba(36, 112, 116, 0.48);
+      --text-primary: #15212b;
+      --text-secondary: #204651;
+      --text-muted: #4b6c75;
 
-      /* Sage & Olive Accents */
-      --accent-olive: #556b2f;
-      --accent-olive-deep: #3f5122;
-      --accent-sage: #7c9473;
-      --accent-sage-soft: rgba(124, 148, 115, 0.16);
-      --accent-moss: #607744;
-      --accent-sand: #a39a74;
+      /* Teal Accents */
+      --accent-olive: #247074;
+      --accent-olive-deep: #204651;
+      --accent-sage: #309d8e;
+      --accent-sage-soft: rgba(48, 157, 142, 0.14);
+      --accent-moss: #288681;
+      --accent-sand: #3aa993;
 
-      --shadow-card: 0 14px 34px -10px rgba(45, 56, 36, 0.10), 0 2px 6px rgba(45, 56, 36, 0.04);
-      --shadow-card-hover: 0 20px 42px -10px rgba(63, 81, 34, 0.18), 0 4px 12px rgba(63, 81, 34, 0.06);
-      --glow-radial: radial-gradient(circle at 50% -10%, rgba(124, 148, 115, 0.24) 0%, rgba(246, 247, 242, 0) 68%);
+      --shadow-card: 0 14px 34px -10px rgba(21, 33, 43, 0.10), 0 2px 6px rgba(21, 33, 43, 0.04);
+      --shadow-card-hover: 0 20px 42px -10px rgba(32, 70, 81, 0.18), 0 4px 12px rgba(32, 70, 81, 0.06);
+      --glow-radial: radial-gradient(circle at 50% -10%, rgba(85, 200, 157, 0.22) 0%, rgba(242, 248, 247, 0) 68%);
     }
 
     body.dark-theme {
-      --bg-base: #131711;
-      --bg-surface: rgba(26, 32, 23, 0.84);
-      --bg-surface-hover: rgba(34, 42, 30, 0.96);
-      --border-subtle: rgba(163, 184, 149, 0.15);
-      --border-highlight: rgba(143, 173, 127, 0.52);
-      --text-primary: #eef2e8;
-      --text-secondary: #b7c2ad;
-      --text-muted: #849179;
+      --bg-base: #15212b;
+      --bg-surface: rgba(32, 70, 81, 0.55);
+      --bg-surface-hover: rgba(32, 70, 81, 0.85);
+      --border-subtle: rgba(85, 200, 157, 0.16);
+      --border-highlight: rgba(85, 200, 157, 0.52);
+      --text-primary: #eefaf6;
+      --text-secondary: #b4ded3;
+      --text-muted: #78aeb2;
 
-      --accent-olive: #8fad7f;
-      --accent-olive-deep: #a5c495;
-      --accent-sage: #78936a;
-      --accent-sage-soft: rgba(143, 173, 127, 0.15);
-      --accent-moss: #9ab87a;
-      --accent-sand: #c2b88e;
+      --accent-olive: #55c89d;
+      --accent-olive-deep: #8df9a2;
+      --accent-sage: #309d8e;
+      --accent-sage-soft: rgba(85, 200, 157, 0.16);
+      --accent-moss: #68d8a0;
+      --accent-sand: #8df9a2;
 
-      --shadow-card: 0 14px 36px -8px rgba(0, 0, 0, 0.5);
-      --shadow-card-hover: 0 20px 44px -8px rgba(0, 0, 0, 0.68);
-      --glow-radial: radial-gradient(circle at 50% -10%, rgba(120, 147, 106, 0.20) 0%, rgba(19, 23, 17, 0) 68%);
+      --shadow-card: 0 14px 36px -8px rgba(10, 18, 24, 0.55);
+      --shadow-card-hover: 0 20px 44px -8px rgba(10, 18, 24, 0.72);
+      --glow-radial: radial-gradient(circle at 50% -10%, rgba(36, 112, 116, 0.32) 0%, rgba(21, 33, 43, 0) 68%);
     }
 
     *, *::before, *::after {
@@ -206,8 +206,8 @@
 
     /* Sun / Moon Pure CSS Morph Toggle Switch (.tgl-02 style) */
     .tgl-02__scene {
-      --day: #7ecbf5;
-      --night: #1c2a4a;
+      --day: #55c89d;
+      --night: #204651;
       position: relative;
       display: inline-flex;
       align-items: center;
@@ -222,16 +222,16 @@
       height: 36px;
       border-radius: 20px;
       border: 1px solid var(--border-subtle);
-      background: linear-gradient(var(--day), #b3e0f9);
+      background: linear-gradient(var(--day), #8df9a2);
       position: relative;
       cursor: pointer;
       transition: background 0.45s ease, border-color 0.35s ease;
-      box-shadow: inset 0 2px 5px rgba(0, 40, 80, 0.25);
+      box-shadow: inset 0 2px 5px rgba(21, 33, 43, 0.22);
     }
 
     .tgl-02__sw:checked {
-      background: linear-gradient(var(--night), #0f1830);
-      border-color: rgba(143, 173, 127, 0.35);
+      background: linear-gradient(var(--night), #15212b);
+      border-color: rgba(85, 200, 157, 0.38);
     }
 
     .tgl-02__sw::before {
@@ -250,7 +250,7 @@
 
     .tgl-02__sw:checked::before {
       transform: translateX(32px);
-      box-shadow: inset -8px -4px 0 1px #f4f1de, 0 0 10px rgba(220, 225, 255, 0.45);
+      box-shadow: inset -8px -4px 0 1px #eefaf6, 0 0 10px rgba(141, 249, 162, 0.45);
     }
 
     .tgl-02__stars {
@@ -261,7 +261,7 @@
       height: 2px;
       border-radius: 50%;
       background: #fff;
-      box-shadow: 10px 4px 0 #fff, 4px 14px 0 0 #dfe8ff, 16px 16px 0 #fff, 24px 7px 0 0 #dfe8ff;
+      box-shadow: 10px 4px 0 #fff, 4px 14px 0 0 #8df9a2, 16px 16px 0 #fff, 24px 7px 0 0 #8df9a2;
       opacity: 0;
       transition: opacity 0.45s ease;
       pointer-events: none;
@@ -322,11 +322,11 @@
       transition: all 0.22s ease;
       white-space: nowrap;
       text-decoration: none;
-      box-shadow: 0 4px 14px rgba(85, 107, 47, 0.22);
+      box-shadow: 0 4px 14px rgba(36, 112, 116, 0.26);
     }
 
     body.dark-theme .cta-btn {
-      color: #131711;
+      color: #15212b;
     }
 
     .cta-btn:hover {
@@ -373,7 +373,7 @@
       padding-bottom: clamp(14px, 1.7vh, 18px);
     }
 
-    /* Subtle top botanical accent line on hover */
+    /* Subtle top accent line on hover */
     .app-card::before {
       content: '';
       position: absolute;
@@ -426,28 +426,30 @@
     }
 
     .icon-olive {
-      background: rgba(85, 107, 47, 0.12);
+      background: rgba(36, 112, 116, 0.12);
       color: var(--accent-olive);
-      border: 1px solid rgba(85, 107, 47, 0.26);
+      border: 1px solid rgba(36, 112, 116, 0.28);
     }
     .icon-sage {
-      background: rgba(124, 148, 115, 0.16);
+      background: rgba(48, 157, 142, 0.14);
       color: var(--accent-olive-deep);
-      border: 1px solid rgba(124, 148, 115, 0.32);
+      border: 1px solid rgba(48, 157, 142, 0.32);
     }
     .icon-moss {
-      background: rgba(96, 119, 68, 0.14);
+      background: rgba(85, 200, 157, 0.16);
       color: var(--accent-moss);
-      border: 1px solid rgba(96, 119, 68, 0.28);
+      border: 1px solid rgba(85, 200, 157, 0.34);
     }
     .icon-sand {
-      background: rgba(163, 154, 116, 0.16);
-      color: #6f6642;
-      border: 1px solid rgba(163, 154, 116, 0.32);
+      background: rgba(32, 70, 81, 0.12);
+      color: #204651;
+      border: 1px solid rgba(32, 70, 81, 0.28);
     }
 
     body.dark-theme .icon-sand {
+      background: rgba(141, 249, 162, 0.14);
       color: var(--accent-sand);
+      border-color: rgba(141, 249, 162, 0.32);
     }
 
     .card-body {
@@ -540,9 +542,9 @@
       font-size: 11px;
       padding: 3px 8px;
       border-radius: 6px;
-      background: rgba(124, 148, 115, 0.10);
+      background: rgba(48, 157, 142, 0.10);
       color: var(--text-muted);
-      border: 1px solid rgba(124, 148, 115, 0.16);
+      border: 1px solid rgba(48, 157, 142, 0.18);
       white-space: nowrap;
     }
 
@@ -577,7 +579,7 @@
       background: var(--accent-olive);
       border-color: var(--accent-olive);
       color: #ffffff;
-      box-shadow: 0 4px 12px rgba(85, 107, 47, 0.22);
+      box-shadow: 0 4px 12px rgba(36, 112, 116, 0.24);
     }
 
     .app-card:hover .launch-arrow {
@@ -585,7 +587,7 @@
     }
 
     body.dark-theme .app-card:hover .launch-hint {
-      color: #131711;
+      color: #15212b;
     }
 
     /* Compact Bottom Footer */
@@ -610,7 +612,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(25, 32, 20, 0.58);
+      background: rgba(21, 33, 43, 0.62);
       backdrop-filter: blur(8px);
       display: none;
       align-items: center;
@@ -637,7 +639,7 @@
       border: 1px solid var(--border-highlight);
       border-radius: 22px;
       padding: 24px;
-      box-shadow: 0 24px 54px rgba(34, 41, 28, 0.25);
+      box-shadow: 0 24px 54px rgba(21, 33, 43, 0.28);
       display: flex;
       flex-direction: column;
       gap: 16px;
