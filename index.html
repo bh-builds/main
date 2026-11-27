@@ -268,49 +268,6 @@
       transform: translateY(-1px);
     }
 
-    /* Filter Tabs Bar */
-    .filter-bar {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      flex-shrink: 0;
-      flex-wrap: wrap;
-    }
-
-    .filter-pill {
-      min-height: 36px;
-      padding: 7px 16px;
-      border-radius: 999px;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-surface);
-      color: var(--text-secondary);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13.5px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.22s ease;
-      white-space: nowrap;
-    }
-
-    .filter-pill:hover {
-      color: var(--text-primary);
-      border-color: var(--border-highlight);
-    }
-
-    .filter-pill.active {
-      background: var(--accent-olive);
-      color: #ffffff;
-      border-color: var(--accent-olive);
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(85, 107, 47, 0.2);
-    }
-
-    body.dark-theme .filter-pill.active {
-      color: #131711;
-    }
-
     /* Responsive Apps Showcase Grid:
 - Desktop (> 1120px): 4 columns, 1 row
 - Tablet (641px - 1120px): 2 columns, 2 rows
@@ -372,12 +329,6 @@
 
     .app-card:hover::before {
       opacity: 1;
-    }
-
-    .app-card.dimmed {
-      opacity: 0.28;
-      pointer-events: none;
-      transform: scale(0.985);
     }
 
     .card-header {
@@ -768,19 +719,6 @@
         flex: 1;
       }
 
-      .filter-bar {
-        justify-content: flex-start;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        padding-bottom: 4px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-      }
-
-      .filter-bar::-webkit-scrollbar {
-        display: none;
-      }
-
       .apps-grid {
         grid-template-columns: 1fr;
         grid-auto-rows: auto;
@@ -790,10 +728,6 @@
       .app-card {
         padding: 18px 16px;
         border-radius: 18px;
-      }
-
-      .app-card.dimmed {
-        display: none;
       }
 
       .app-title {
@@ -877,14 +811,6 @@
         </button>
       </div>
     </header>
-
-    <!-- Category Filter Bar -->
-    <nav class="filter-bar" aria-label="App Categories">
-      <button type="button" class="filter-pill active" data-filter="all">All Apps (4)</button>
-      <button type="button" class="filter-pill" data-filter="dashboard">Dashboards</button>
-      <button type="button" class="filter-pill" data-filter="field">Field &amp; Geo</button>
-      <button type="button" class="filter-pill" data-filter="governance">Governance &amp; Risk</button>
-    </nav>
 
     <!-- Responsive Apps Showcase Grid (4-col desktop, 2-col tablet, 1-col mobile) -->
     <section class="apps-grid" aria-label="Featured Web Applications">
@@ -1048,26 +974,6 @@
 
   <script>
     (function () {
-      // Category Filter Logic
-      const filterPills = document.querySelectorAll('.filter-pill');
-      const appCards = document.querySelectorAll('.app-card');
-
-      filterPills.forEach(pill => {
-        pill.addEventListener('click', () => {
-          filterPills.forEach(p => p.classList.remove('active'));
-          pill.classList.add('active');
-          const filter = pill.dataset.filter;
-
-          appCards.forEach(card => {
-            if (filter === 'all' || card.dataset.category === filter) {
-              card.classList.remove('dimmed');
-            } else {
-              card.classList.add('dimmed');
-            }
-          });
-        });
-      });
-
       // Contact Modal Logic
       const contactModal = document.getElementById('contactModal');
       const openContactModal = () => contactModal.classList.add('open');
